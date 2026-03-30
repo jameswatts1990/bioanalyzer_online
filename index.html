@@ -13,8 +13,9 @@
           <p class="eyebrow">Femto Trace Workflow</p>
           <h1>bioanalyzeR Online</h1>
           <p class="subtitle">
-            Run Femto Trace differential analysis entirely in-browser and review
-            R-style output, summary KPIs, and visualizations in one place.
+            Analyze Femto Pulse / ProSize electropherogram exports in-browser
+            with clear setup guidance, QC-focused thresholds, and visual review
+            in one place.
           </p>
         </div>
         <button class="ghost" id="loadDemoBtn">Load Demo Payload</button>
@@ -30,28 +31,38 @@
               <code>http://localhost:8080</code>.
             </li>
             <li>
-              <strong>Add Femto Trace data:</strong> paste CSV/TSV where each
-              row is a marker/gene and each sample column contains intensity values.
+              <strong>Export from ProSize (Femto Pulse):</strong> export
+              Electropherogram (single file, time scale), Peak Table (alternate),
+              and Size Calibration CSVs from the same run folder.
+            </li>
+            <li>
+              <strong>Add Femto Trace matrix data:</strong> paste CSV/TSV where
+              each row is a region/feature and each sample column contains
+              intensity, concentration, or molarity values.
             </li>
             <li>
               <strong>Detect and verify sample columns:</strong> click
-              <em>Detect Sample Columns</em>, then confirm Group A and Group B assignments.
+              <em>Detect Sample Columns</em>, then confirm Baseline and Test sample assignments.
             </li>
             <li>
-              <strong>Label the comparison:</strong> set Group A / Group B labels
-              (for example <code>Control</code> vs <code>Treated</code>) and choose your thresholds.
+              <strong>Choose labels and thresholds:</strong> set Baseline/Test
+              names and QC thresholds for adjusted p-value and |log2FC|.
             </li>
             <li>
-              <strong>Run analysis:</strong> click <em>Run Femto Trace Analysis</em>
-              to calculate fold-change and adjusted p-values locally.
+              <strong>Run Femto Trace analysis:</strong> click
+              <em>Run Femto Trace Analysis</em> to calculate per-feature fold
+              changes and adjusted p-values locally.
             </li>
             <li>
-              <strong>Review results:</strong> use KPI cards, an R output panel,
-              volcano visualization, and the results table.
+              <strong>Review results:</strong> use KPI cards, a
+              bioanalyzeR-style console preview, volcano visualization, and the
+              results table.
             </li>
           </ol>
           <p class="hint">
-            Tip: Use <em>Load Demo Payload</em> to load a realistic 3-vs-3 starter dataset, detect columns automatically, then run analysis in one click.
+            Tip: Use <em>Load Demo Payload</em> to load a Femto-style 3-vs-3
+            starter dataset, detect columns automatically, then run analysis in
+            one click.
           </p>
         </section>
 
@@ -62,12 +73,12 @@
 
           <div class="split">
             <div>
-              <label for="conditionA">Group A Label</label>
-              <input id="conditionA" type="text" value="Control" />
+              <label for="conditionA">Baseline Label</label>
+              <input id="conditionA" type="text" value="Reference" />
             </div>
             <div>
-              <label for="conditionB">Group B Label</label>
-              <input id="conditionB" type="text" value="Treated" />
+              <label for="conditionB">Test Label</label>
+              <input id="conditionB" type="text" value="Sample Set" />
             </div>
           </div>
 
@@ -82,26 +93,30 @@
             </div>
           </div>
 
-          <label for="inputData">Femto Trace Data (CSV/TSV)</label>
+          <label for="inputData">Femto Trace Data Matrix (CSV/TSV)</label>
           <textarea
             id="inputData"
             rows="9"
-            placeholder="gene,control_rep_1,control_rep_2,control_rep_3,treated_rep_1,treated_rep_2,treated_rep_3\nMarker_1,102,98,105,187,192,181\nMarker_2,44,47,43,31,28,30"
+            placeholder="feature,ref_rep_1,ref_rep_2,ref_rep_3,test_rep_1,test_rep_2,test_rep_3\nRegion_200_500bp,102,98,105,187,192,181\nRegion_500_1500bp,44,47,43,31,28,30"
           ></textarea>
+          <p class="hint compact-hint">
+            Compatible with copy/paste from Femto Pulse exports after reshaping
+            to one row per feature (peak/region/smear metric) and one column per sample.
+          </p>
           <button class="ghost compact" id="detectColumnsBtn" type="button">Detect Sample Columns</button>
 
           <div class="split">
             <div>
-              <label for="groupACols">Group A Sample Columns</label>
+              <label for="groupACols">Baseline Sample Columns</label>
               <select id="groupACols" multiple size="4" aria-describedby="sampleColHint"></select>
             </div>
             <div>
-              <label for="groupBCols">Group B Sample Columns</label>
+              <label for="groupBCols">Test Sample Columns</label>
               <select id="groupBCols" multiple size="4" aria-describedby="sampleColHint"></select>
             </div>
           </div>
           <p class="hint" id="sampleColHint">
-            Hold Ctrl/Cmd to select multiple columns. First column is treated as marker/gene ID.
+            Hold Ctrl/Cmd to select multiple columns. First column is treated as the feature ID.
           </p>
 
           <button class="primary" id="analyzeBtn">Run Femto Trace Analysis</button>
@@ -111,11 +126,11 @@
           <h2 id="results-heading">2) Results</h2>
           <div class="kpis" id="kpiContainer">
             <article>
-              <p class="kpi-label">Genes Tested</p>
+              <p class="kpi-label">Features Tested</p>
               <p class="kpi-value" id="genesTested">—</p>
             </article>
             <article>
-              <p class="kpi-label">Significant Hits</p>
+              <p class="kpi-label">Significant Features</p>
               <p class="kpi-value" id="sigHits">—</p>
             </article>
             <article>
@@ -128,7 +143,7 @@
             <table>
               <thead>
                 <tr>
-                  <th>Gene</th>
+                  <th>Feature</th>
                   <th>log2FC</th>
                   <th>adj.P.Val</th>
                   <th>Status</th>
