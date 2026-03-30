@@ -17,11 +17,11 @@ A lightweight web UI that runs Femto Trace-style differential analysis locally i
    - First row is header
    - First column is marker/gene ID
    - Remaining columns are sample intensity values
-5. Click **Detect Sample Columns** and verify Group A / Group B sample assignments.
+5. Click **Detect Sample Columns** and verify Group A / Group B sample assignments before running.
 6. Click **Run Femto Trace Analysis**.
 7. Read results in KPI cards, the R output preview panel, volcano plot, and marker-level results table.
 
-Tip: Click **Load Demo Payload** to run a known-good sample payload before using your own data.
+Tip: Click **Load Demo Payload** to load a realistic balanced (3-vs-3) sample payload with prefilled labels and thresholds before using your own data.
 
 ## What this includes
 
