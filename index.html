@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>bioanalyzeR Online</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Bioinformatics Workflow</p>
+          <h1>bioanalyzeR Online</h1>
+          <p class="subtitle">
+            Upload expression matrices and run differential analysis through a
+            bioanalyzeR-compatible backend.
+          </p>
+        </div>
+        <button class="ghost" id="loadDemoBtn">Load Demo Payload</button>
+      </header>
+
+      <main class="layout-grid">
+        <section class="card" aria-labelledby="connection-heading">
+          <h2 id="connection-heading">1) Backend Connection</h2>
+          <label for="apiBase">API Base URL</label>
+          <div class="row">
+            <input
+              id="apiBase"
+              type="url"
+              placeholder="https://your-bioanalyzer-api.example.com"
+            />
+            <button id="healthBtn">Test Connection</button>
+          </div>
+          <p class="hint">
+            Expected endpoints: <code>GET /health</code>,
+            <code>POST /analyze</code>
+          </p>
+          <p class="status" id="healthStatus" role="status" aria-live="polite"></p>
+        </section>
+
+        <section class="card" aria-labelledby="inputs-heading">
+          <h2 id="inputs-heading">2) Analysis Inputs</h2>
+          <label for="datasetName">Dataset Name</label>
+          <input id="datasetName" type="text" placeholder="e.g. BRCA cohort" />
+
+          <div class="split">
+            <div>
+              <label for="conditionA">Group A Label</label>
+              <input id="conditionA" type="text" value="control" />
+            </div>
+            <div>
+              <label for="conditionB">Group B Label</label>
+              <input id="conditionB" type="text" value="treated" />
+            </div>
+          </div>
+
+          <div class="split">
+            <div>
+              <label for="adjP">Adjusted p-value cutoff</label>
+              <input id="adjP" type="number" min="0" max="1" step="0.001" value="0.05" />
+            </div>
+            <div>
+              <label for="logfc">|log2FC| cutoff</label>
+              <input id="logfc" type="number" min="0" step="0.1" value="1" />
+            </div>
+          </div>
+
+          <label for="inputData">Expression Data (CSV/TSV)</label>
+          <textarea
+            id="inputData"
+            rows="9"
+            placeholder="gene,sample_1,sample_2\nTP53,12,15\nBRCA1,4,9"
+          ></textarea>
+
+          <button class="primary" id="analyzeBtn">Run Analysis</button>
+        </section>
+
+        <section class="card" aria-labelledby="results-heading">
+          <h2 id="results-heading">3) Results</h2>
+          <div class="kpis" id="kpiContainer">
+            <article>
+              <p class="kpi-label">Genes Tested</p>
+              <p class="kpi-value" id="genesTested">—</p>
+            </article>
+            <article>
+              <p class="kpi-label">Significant Hits</p>
+              <p class="kpi-value" id="sigHits">—</p>
+            </article>
+            <article>
+              <p class="kpi-label">Runtime (s)</p>
+              <p class="kpi-value" id="runtime">—</p>
+            </article>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Gene</th>
+                  <th>log2FC</th>
+                  <th>adj.P.Val</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="resultRows">
+                <tr>
+                  <td colspan="4" class="empty">No analysis run yet.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="status" id="analysisStatus" role="status" aria-live="polite"></p>
+        </section>
+      </main>
+    </div>
+
+    <template id="rowTemplate">
+      <tr>
+        <td data-key="gene"></td>
+        <td data-key="log2fc"></td>
+        <td data-key="adj_p_val"></td>
+        <td data-key="status"></td>
+      </tr>
+    </template>
+
+    <script src="app.js" defer></script>
+  </body>
+</html>
