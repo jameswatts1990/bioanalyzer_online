@@ -31,38 +31,43 @@
               <code>http://localhost:8080</code>.
             </li>
             <li>
-              <strong>Export from ProSize (Femto Pulse):</strong> export
-              Electropherogram (single file, time scale), Peak Table (alternate),
-              and Size Calibration CSVs from the same run folder.
+              <strong>Preview a working example first:</strong> click
+              <em>Load Demo Payload</em> to see a valid starter Femto CSV shape
+              and expected sample grouping behavior.
             </li>
             <li>
-              <strong>Add Femto Trace matrix data:</strong> paste CSV/TSV where
-              each row is a region/feature and each sample column contains
-              intensity, concentration, or molarity values.
+              <strong>Prepare your Femto CSV:</strong> row 1 is headers, column
+              1 is feature ID, and each remaining column is one numeric sample
+              replicate.
             </li>
             <li>
-              <strong>Detect and verify sample columns:</strong> click
-              <em>Detect Sample Columns</em>, then confirm Baseline and Test sample assignments.
+              <strong>Name sample columns clearly:</strong> include group labels
+              in headers (for example, <code>control_rep_1</code> and
+              <code>treated_rep_1</code>) to make assignment easier.
             </li>
             <li>
-              <strong>Choose labels and thresholds:</strong> set Baseline/Test
-              names and QC thresholds for adjusted p-value and |log2FC|.
+              <strong>Paste CSV/TSV data:</strong> add the matrix to
+              <em>Femto Trace Data Matrix</em> and verify there are no blank headers
+              or non-numeric values in sample columns.
             </li>
             <li>
-              <strong>Run Femto Trace analysis:</strong> click
-              <em>Run Femto Trace Analysis</em> to calculate per-feature fold
-              changes and adjusted p-values locally.
+              <strong>Detect and verify columns:</strong> click
+              <em>Detect Sample Columns</em>, then confirm Baseline and Test
+              sample assignments in both selectors.
             </li>
             <li>
-              <strong>Review results:</strong> use KPI cards, a
-              bioanalyzeR-style console preview, volcano visualization, and the
-              results table.
+              <strong>Set labels and thresholds:</strong> choose Baseline/Test
+              names and QC cutoffs for adjusted p-value and |log2FC|.
+            </li>
+            <li>
+              <strong>Run and review:</strong> click
+              <em>Run Femto Trace Analysis</em>, then review KPI cards, console
+              preview, volcano visualization, and result table.
             </li>
           </ol>
           <p class="hint">
-            Tip: Use <em>Load Demo Payload</em> to load a Femto-style 3-vs-3
-            starter dataset, detect columns automatically, then run analysis in
-            one click.
+            Tip: First-time users should run the demo once, then replace only
+            the matrix with their own Femto CSV while keeping the same format.
           </p>
         </section>
 
