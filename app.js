@@ -127,18 +127,20 @@ const buildRPreview = (payload, summary, rows) => {
     .slice(0, 6)
     .map(
       (row) =>
-        `${row.gene.padEnd(10, ' ')}  logFC=${row.log2fc.toFixed(3)}  adj.P.Val=${row.adj_p_val.toExponential(2)}  ${row.status}`
+        `${row.gene.padEnd(18, ' ')}  logFC=${row.log2fc.toFixed(3)}  adj.P.Val=${row.adj_p_val.toExponential(2)}  ${row.status}`
     )
     .join('\n');
 
   return [
-    '> library(limma)',
-    `> dataset <- "${payload.dataset_name}"`,
-    `> group_labels <- c("${payload.groups.control}", "${payload.groups.treatment}")`,
-    `> fit <- eBayes(lmFit(exprs, design))`,
-    '> results <- topTable(fit, adjust.method="BH", number=Inf)',
-    `# Genes tested: ${summary.genes_tested}`,
-    `# Significant hits: ${summary.significant_hits}`,
+    '> library(bioanalyzeR)',
+    `> dataset_name <- "${payload.dataset_name}"`,
+    `> groups <- c("${payload.groups.control}", "${payload.groups.treatment}")`,
+    '> # Typical upstream import path:',
+    '> # epg <- read.prosize("Femto_Run.zip")',
+    '> # qc <- qc.electrophoresis(epg)',
+    '> # summary <- summary.electrophoresis(epg)',
+    `# Features tested: ${summary.genes_tested}`,
+    `# Significant features: ${summary.significant_hits}`,
     `# Runtime: ${summary.runtime_sec}s`,
     '',
     topRows || '# No rows'
@@ -254,11 +256,11 @@ const runLocalAnalysis = (payload) => {
 detectColumnsBtn.addEventListener('click', () => {
   const { headers } = parseDataInput(inputDataEl.value);
   if (headers.length < 3) {
-    setStatus(analysisStatus, 'Add CSV/TSV data with at least 1 gene column and 2 sample columns first.', 'error');
+    setStatus(analysisStatus, 'Add CSV/TSV data with at least 1 feature column and 2 sample columns first.', 'error');
     return;
   }
   fillColumnSelectors(headers);
-  setStatus(analysisStatus, 'Sample columns detected. Verify Group A and Group B selections.', 'ok');
+  setStatus(analysisStatus, 'Sample columns detected. Verify Baseline and Test selections.', 'ok');
 });
 
 analyzeBtn.addEventListener('click', async () => {
@@ -269,11 +271,11 @@ analyzeBtn.addEventListener('click', async () => {
   }
 
   if (!payload.groupACols.length || !payload.groupBCols.length) {
-    setStatus(analysisStatus, 'Select at least one sample column for both Group A and Group B.', 'error');
+    setStatus(analysisStatus, 'Select at least one sample column for both Baseline and Test groups.', 'error');
     return;
   }
 
-  setStatus(analysisStatus, 'Running local Femto Trace differential analysis...');
+  setStatus(analysisStatus, 'Running local Femto Trace comparison analysis...');
   analyzeBtn.disabled = true;
 
   try {
@@ -296,26 +298,26 @@ analyzeBtn.addEventListener('click', async () => {
 });
 
 loadDemoBtn.addEventListener('click', () => {
-  document.getElementById('datasetName').value = 'Femto Trace Demo Plate (3v3)';
-  document.getElementById('conditionA').value = 'Control';
-  document.getElementById('conditionB').value = 'Treated';
+  document.getElementById('datasetName').value = 'Femto Pulse Demo Run (3v3)';
+  document.getElementById('conditionA').value = 'Reference';
+  document.getElementById('conditionB').value = 'Fragmented';
   document.getElementById('adjP').value = '0.05';
   document.getElementById('logfc').value = '1.0';
   inputDataEl.value = [
-    'gene,control_rep_1,control_rep_2,control_rep_3,treated_rep_1,treated_rep_2,treated_rep_3',
-    'Marker_A,120,111,118,288,244,271',
-    'Marker_B,100,99,103,52,55,58',
-    'Marker_C,43,47,45,41,45,44',
-    'Marker_D,14,13,15,23,21,22',
-    'Marker_E,61,58,60,126,130,121',
-    'Marker_F,210,198,205,148,152,145'
+    'feature,ref_rep_1,ref_rep_2,ref_rep_3,test_rep_1,test_rep_2,test_rep_3',
+    'Region_1to200bp,120,111,118,288,244,271',
+    'Region_200to500bp,100,99,103,52,55,58',
+    'Region_500to1500bp,43,47,45,41,45,44',
+    'Region_1500to6000bp,14,13,15,23,21,22',
+    'Peak_AdapterDimer,61,58,60,126,130,121',
+    'Peak_MainLibrary,210,198,205,148,152,145'
   ].join('\n');
 
   const { headers } = parseDataInput(inputDataEl.value);
   fillColumnSelectors(headers);
   rOutput.textContent = 'No analysis run yet.';
   plotWrap.innerHTML = '<p class="empty">Run analysis to render volcano plot.</p>';
-  setStatus(analysisStatus, 'Femto Trace demo loaded with balanced replicates. Review labels/thresholds, then run local analysis.', 'ok');
+  setStatus(analysisStatus, 'Femto Trace demo loaded with balanced replicates. Review labels/thresholds, then run analysis.', 'ok');
 });
 
 plotWrap.innerHTML = '<p class="empty">Run analysis to render volcano plot.</p>';

@@ -178,6 +178,11 @@ button.ghost {
   padding: 0.45rem 0.7rem;
 }
 
+.compact-hint {
+  margin-top: 0.4rem;
+  margin-bottom: 0.2rem;
+}
+
 select[multiple] {
   border: 1px solid var(--border);
   border-radius: 10px;
