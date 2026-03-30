@@ -172,6 +172,20 @@ button.ghost {
   font-size: 0.9rem;
 }
 
+.compact {
+  width: auto;
+  margin-top: 0.55rem;
+  padding: 0.45rem 0.7rem;
+}
+
+select[multiple] {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.35rem;
+  background: #fff;
+  width: 100%;
+}
+
 .status.ok {
   color: var(--ok);
 }
@@ -238,6 +252,39 @@ tr:last-child td {
 .empty {
   text-align: center;
   color: var(--muted);
+}
+
+.r-console {
+  margin: 0.6rem 0 0.9rem;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: #0f2237;
+  color: #d9e9ff;
+  padding: 0.75rem;
+  font-size: 0.78rem;
+  line-height: 1.45;
+  max-height: 220px;
+  overflow: auto;
+}
+
+.plot-wrap {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: #fff;
+  min-height: 120px;
+  display: grid;
+  align-items: center;
+}
+
+.volcano {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+h3 {
+  margin: 0.8rem 0 0.35rem;
+  font-size: 0.94rem;
 }
 
 @media (max-width: 700px) {

@@ -13,8 +13,8 @@
           <p class="eyebrow">Femto Trace Workflow</p>
           <h1>bioanalyzeR Online</h1>
           <p class="subtitle">
-            Start with a Femto Trace sample table, connect to your backend, and
-            review differential analysis results in one place.
+            Run Femto Trace differential analysis entirely in-browser and review
+            R-style output, summary KPIs, and visualizations in one place.
           </p>
         </div>
         <button class="ghost" id="loadDemoBtn">Load Demo Payload</button>
@@ -25,17 +25,17 @@
           <h2 id="getting-started-heading">Getting Started (New Users)</h2>
           <ol class="onboarding-list">
             <li>
-              <strong>Run the app and backend:</strong> start this UI with
+              <strong>Run the app:</strong> start this UI with
               <code>python3 -m http.server 8080</code>, then open
               <code>http://localhost:8080</code>.
             </li>
             <li>
-              <strong>Set API Base URL:</strong> enter your bioanalyzer backend
-              URL and click <em>Test Connection</em>.
-            </li>
-            <li>
               <strong>Add Femto Trace data:</strong> paste CSV/TSV where each
               row is a marker/gene and columns are sample intensity values.
+            </li>
+            <li>
+              <strong>Choose sample columns:</strong> pick which samples belong
+              to Group A and Group B using the selectors below.
             </li>
             <li>
               <strong>Label sample groups:</strong> set Group A / Group B to
@@ -44,46 +44,20 @@
             </li>
             <li>
               <strong>Run analysis:</strong> click <em>Run Femto Trace Analysis</em>
-              to calculate fold-change and adjusted p-values.
+              to calculate fold-change and adjusted p-values locally.
             </li>
             <li>
-              <strong>Review results:</strong> use KPI cards for a quick
-              summary and the table for per-marker interpretation.
+              <strong>Review results:</strong> use KPI cards, an R output panel,
+              volcano visualization, and the results table.
             </li>
           </ol>
           <p class="hint">
-            Tip: Use <em>Load Demo Payload</em> for a ready-to-run example.
+            Tip: Use <em>Load Demo Payload</em> for a ready-to-run local example.
           </p>
-        </section>
-
-        <section class="card" aria-labelledby="connection-heading">
-          <h2 id="connection-heading">1) Backend Connection</h2>
-          <label for="apiBase">API Base URL</label>
-          <div class="row">
-            <input
-              id="apiBase"
-              type="url"
-              placeholder="https://your-bioanalyzer-api.example.com"
-            />
-            <button id="healthBtn">Test Connection</button>
-          </div>
-          <label for="apiKey">API Key (Optional)</label>
-          <input
-            id="apiKey"
-            type="password"
-            placeholder="Leave blank if your backend does not require authentication"
-            autocomplete="off"
-          />
-          <p class="hint">
-            Expected endpoints: <code>GET /health</code>,
-            <code>POST /analyze</code>. If your backend does not require auth,
-            you can leave API Key empty.
-          </p>
-          <p class="status" id="healthStatus" role="status" aria-live="polite"></p>
         </section>
 
         <section class="card" aria-labelledby="inputs-heading">
-          <h2 id="inputs-heading">2) Femto Trace Inputs</h2>
+          <h2 id="inputs-heading">1) Femto Trace Inputs</h2>
           <label for="datasetName">Dataset Name</label>
           <input id="datasetName" type="text" placeholder="e.g. Femto Trace Plate 07" />
 
@@ -115,12 +89,27 @@
             rows="9"
             placeholder="gene,control_rep1,control_rep2,treated_rep1,treated_rep2\nMarker_1,12,15,27,23\nMarker_2,40,44,32,30"
           ></textarea>
+          <button class="ghost compact" id="detectColumnsBtn" type="button">Detect Sample Columns</button>
+
+          <div class="split">
+            <div>
+              <label for="groupACols">Group A Sample Columns</label>
+              <select id="groupACols" multiple size="4" aria-describedby="sampleColHint"></select>
+            </div>
+            <div>
+              <label for="groupBCols">Group B Sample Columns</label>
+              <select id="groupBCols" multiple size="4" aria-describedby="sampleColHint"></select>
+            </div>
+          </div>
+          <p class="hint" id="sampleColHint">
+            Hold Ctrl/Cmd to select multiple columns. First column is treated as marker/gene ID.
+          </p>
 
           <button class="primary" id="analyzeBtn">Run Femto Trace Analysis</button>
         </section>
 
         <section class="card" aria-labelledby="results-heading">
-          <h2 id="results-heading">3) Results</h2>
+          <h2 id="results-heading">2) Results</h2>
           <div class="kpis" id="kpiContainer">
             <article>
               <p class="kpi-label">Genes Tested</p>
@@ -153,6 +142,10 @@
               </tbody>
             </table>
           </div>
+          <h3>R Output Preview</h3>
+          <pre class="r-console" id="rOutput">No analysis run yet.</pre>
+          <h3>Volcano Plot</h3>
+          <div class="plot-wrap" id="plotWrap" aria-live="polite"></div>
           <p class="status" id="analysisStatus" role="status" aria-live="polite"></p>
         </section>
       </main>
