@@ -2,6 +2,27 @@
 
 A lightweight web front end for a `bioanalyzeR`-compatible backend API.
 
+## Femto Trace workflow (new user quick guide)
+
+1. Start the web UI locally:
+   ```bash
+   python3 -m http.server 8080
+   ```
+2. Open `http://localhost:8080`.
+3. In **Backend Connection**, enter your backend URL and click **Test Connection**.
+4. In **Femto Trace Inputs**, fill:
+   - Dataset name (for example: `Femto Trace Plate 07`)
+   - Group A and Group B labels (for example: `Control` and `Treated`)
+   - Analysis thresholds (`adj_p_max` and `|log2FC|`)
+5. Paste Femto Trace matrix data (CSV/TSV), where:
+   - First row is header
+   - First column is marker/gene ID
+   - Remaining columns are sample intensity values
+6. Click **Run Femto Trace Analysis**.
+7. Read results in the KPI cards and marker-level results table.
+
+Tip: Click **Load Demo Payload** to run a known-good sample payload before using your own data.
+
 ## What this includes
 
 - Single-page UI for:

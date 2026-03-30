@@ -71,9 +71,29 @@ h1 {
   padding: 1rem;
 }
 
+.card-intro {
+  grid-column: 1 / -1;
+}
+
 h2 {
   margin-top: 0;
   font-size: 1.05rem;
+}
+
+.onboarding-list {
+  margin: 0;
+  padding-left: 1.2rem;
+  display: grid;
+  gap: 0.4rem;
+}
+
+.onboarding-list li {
+  color: var(--text);
+}
+
+.onboarding-list em {
+  font-style: normal;
+  font-weight: 600;
 }
 
 label {

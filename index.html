@@ -10,17 +10,52 @@
     <div class="app-shell">
       <header class="topbar">
         <div>
-          <p class="eyebrow">Bioinformatics Workflow</p>
+          <p class="eyebrow">Femto Trace Workflow</p>
           <h1>bioanalyzeR Online</h1>
           <p class="subtitle">
-            Upload expression matrices and run differential analysis through a
-            bioanalyzeR-compatible backend.
+            Start with a Femto Trace sample table, connect to your backend, and
+            review differential analysis results in one place.
           </p>
         </div>
         <button class="ghost" id="loadDemoBtn">Load Demo Payload</button>
       </header>
 
       <main class="layout-grid">
+        <section class="card card-intro" aria-labelledby="getting-started-heading">
+          <h2 id="getting-started-heading">Getting Started (New Users)</h2>
+          <ol class="onboarding-list">
+            <li>
+              <strong>Run the app and backend:</strong> start this UI with
+              <code>python3 -m http.server 8080</code>, then open
+              <code>http://localhost:8080</code>.
+            </li>
+            <li>
+              <strong>Set API Base URL:</strong> enter your bioanalyzer backend
+              URL and click <em>Test Connection</em>.
+            </li>
+            <li>
+              <strong>Add Femto Trace data:</strong> paste CSV/TSV where each
+              row is a marker/gene and columns are sample intensity values.
+            </li>
+            <li>
+              <strong>Label sample groups:</strong> set Group A / Group B to
+              your comparison (for example <code>Control</code> vs
+              <code>Treated</code>).
+            </li>
+            <li>
+              <strong>Run analysis:</strong> click <em>Run Femto Trace Analysis</em>
+              to calculate fold-change and adjusted p-values.
+            </li>
+            <li>
+              <strong>Review results:</strong> use KPI cards for a quick
+              summary and the table for per-marker interpretation.
+            </li>
+          </ol>
+          <p class="hint">
+            Tip: Use <em>Load Demo Payload</em> for a ready-to-run example.
+          </p>
+        </section>
+
         <section class="card" aria-labelledby="connection-heading">
           <h2 id="connection-heading">1) Backend Connection</h2>
           <label for="apiBase">API Base URL</label>
@@ -48,18 +83,18 @@
         </section>
 
         <section class="card" aria-labelledby="inputs-heading">
-          <h2 id="inputs-heading">2) Analysis Inputs</h2>
+          <h2 id="inputs-heading">2) Femto Trace Inputs</h2>
           <label for="datasetName">Dataset Name</label>
-          <input id="datasetName" type="text" placeholder="e.g. BRCA cohort" />
+          <input id="datasetName" type="text" placeholder="e.g. Femto Trace Plate 07" />
 
           <div class="split">
             <div>
               <label for="conditionA">Group A Label</label>
-              <input id="conditionA" type="text" value="control" />
+              <input id="conditionA" type="text" value="Control" />
             </div>
             <div>
               <label for="conditionB">Group B Label</label>
-              <input id="conditionB" type="text" value="treated" />
+              <input id="conditionB" type="text" value="Treated" />
             </div>
           </div>
 
@@ -74,14 +109,14 @@
             </div>
           </div>
 
-          <label for="inputData">Expression Data (CSV/TSV)</label>
+          <label for="inputData">Femto Trace Data (CSV/TSV)</label>
           <textarea
             id="inputData"
             rows="9"
-            placeholder="gene,sample_1,sample_2\nTP53,12,15\nBRCA1,4,9"
+            placeholder="gene,control_rep1,control_rep2,treated_rep1,treated_rep2\nMarker_1,12,15,27,23\nMarker_2,40,44,32,30"
           ></textarea>
 
-          <button class="primary" id="analyzeBtn">Run Analysis</button>
+          <button class="primary" id="analyzeBtn">Run Femto Trace Analysis</button>
         </section>
 
         <section class="card" aria-labelledby="results-heading">

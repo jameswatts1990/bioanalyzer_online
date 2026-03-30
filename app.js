@@ -65,10 +65,10 @@ const renderResults = (rows) => {
 const normalizePayload = () => {
   const { records } = parseDataInput(document.getElementById('inputData').value);
   return {
-    dataset_name: document.getElementById('datasetName').value.trim() || 'untitled_dataset',
+    dataset_name: document.getElementById('datasetName').value.trim() || 'femto_trace_dataset',
     groups: {
-      control: document.getElementById('conditionA').value.trim() || 'control',
-      treatment: document.getElementById('conditionB').value.trim() || 'treated'
+      control: document.getElementById('conditionA').value.trim() || 'Control',
+      treatment: document.getElementById('conditionB').value.trim() || 'Treated'
     },
     thresholds: {
       adj_p_max: Number(document.getElementById('adjP').value),
@@ -108,11 +108,11 @@ analyzeBtn.addEventListener('click', async () => {
 
   const payload = normalizePayload();
   if (!payload.records.length) {
-    setStatus(analysisStatus, 'Add at least one data row in CSV/TSV format.', 'error');
+    setStatus(analysisStatus, 'Add at least one Femto Trace row in CSV/TSV format.', 'error');
     return;
   }
 
-  setStatus(analysisStatus, 'Running differential analysis...');
+  setStatus(analysisStatus, 'Running Femto Trace differential analysis...');
   analyzeBtn.disabled = true;
 
   try {
@@ -133,7 +133,7 @@ analyzeBtn.addEventListener('click', async () => {
     runtimeEl.textContent = body.summary?.runtime_sec ?? '—';
 
     renderResults(body.results ?? []);
-    setStatus(analysisStatus, 'Analysis completed successfully.', 'ok');
+    setStatus(analysisStatus, 'Femto Trace analysis completed successfully.', 'ok');
   } catch (error) {
     setStatus(analysisStatus, error.message, 'error');
   } finally {
@@ -142,18 +142,18 @@ analyzeBtn.addEventListener('click', async () => {
 });
 
 loadDemoBtn.addEventListener('click', () => {
-  document.getElementById('datasetName').value = 'Synthetic Demo';
-  document.getElementById('conditionA').value = 'WT';
-  document.getElementById('conditionB').value = 'KO';
+  document.getElementById('datasetName').value = 'Femto Trace Demo Plate';
+  document.getElementById('conditionA').value = 'Control';
+  document.getElementById('conditionB').value = 'Treated';
   document.getElementById('adjP').value = '0.05';
   document.getElementById('logfc').value = '1.2';
   document.getElementById('inputData').value = [
-    'gene,sample_wt_1,sample_wt_2,sample_ko_1,sample_ko_2',
-    'TP53,12,11,28,24',
-    'EGFR,100,99,52,55',
-    'MYC,43,47,41,45',
-    'CDK2,14,13,23,21'
+    'gene,control_rep_1,control_rep_2,treated_rep_1,treated_rep_2',
+    'Marker_A,120,111,288,244',
+    'Marker_B,100,99,52,55',
+    'Marker_C,43,47,41,45',
+    'Marker_D,14,13,23,21'
   ].join('\n');
 
-  setStatus(analysisStatus, 'Demo payload loaded. Set your backend URL and run analysis.', 'ok');
+  setStatus(analysisStatus, 'Femto Trace demo loaded. Set your backend URL and run analysis.', 'ok');
 });
