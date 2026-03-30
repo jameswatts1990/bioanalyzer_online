@@ -2,6 +2,7 @@ const healthBtn = document.getElementById('healthBtn');
 const analyzeBtn = document.getElementById('analyzeBtn');
 const loadDemoBtn = document.getElementById('loadDemoBtn');
 const apiBaseEl = document.getElementById('apiBase');
+const apiKeyEl = document.getElementById('apiKey');
 const healthStatus = document.getElementById('healthStatus');
 const analysisStatus = document.getElementById('analysisStatus');
 const resultRows = document.getElementById('resultRows');
@@ -12,6 +13,12 @@ const sigHitsEl = document.getElementById('sigHits');
 const runtimeEl = document.getElementById('runtime');
 
 const getApiBase = () => apiBaseEl.value.trim().replace(/\/$/, '');
+const getApiKey = () => apiKeyEl.value.trim();
+const getAuthHeaders = () => {
+  const apiKey = getApiKey();
+  if (!apiKey) return {};
+  return { Authorization: `Bearer ${apiKey}` };
+};
 
 const setStatus = (element, message, tone = 'neutral') => {
   element.textContent = message;
@@ -80,7 +87,9 @@ healthBtn.addEventListener('click', async () => {
 
   setStatus(healthStatus, 'Checking backend health...');
   try {
-    const res = await fetch(`${base}/health`);
+    const res = await fetch(`${base}/health`, {
+      headers: getAuthHeaders()
+    });
     if (!res.ok) throw new Error(`Health check failed (${res.status})`);
     const body = await res.json();
     const version = body.version ? ` (version ${body.version})` : '';
@@ -109,7 +118,10 @@ analyzeBtn.addEventListener('click', async () => {
   try {
     const res = await fetch(`${base}/analyze`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        ...getAuthHeaders()
+      },
       body: JSON.stringify(payload)
     });
 

@@ -32,9 +32,17 @@
             />
             <button id="healthBtn">Test Connection</button>
           </div>
+          <label for="apiKey">API Key (Optional)</label>
+          <input
+            id="apiKey"
+            type="password"
+            placeholder="Leave blank if your backend does not require authentication"
+            autocomplete="off"
+          />
           <p class="hint">
             Expected endpoints: <code>GET /health</code>,
-            <code>POST /analyze</code>
+            <code>POST /analyze</code>. If your backend does not require auth,
+            you can leave API Key empty.
           </p>
           <p class="status" id="healthStatus" role="status" aria-live="polite"></p>
         </section>

@@ -81,5 +81,6 @@ Example response body:
 
 ## Notes
 
-- The UI does not include authentication; if your backend requires it, add headers in `app.js`.
+- API key auth is optional in the UI. If your backend is open, leave the API key field empty.
+- If your backend requires bearer auth, add your key in the API key field and it will be sent as `Authorization: Bearer <key>`.
 - The backend URL is user-configurable in the interface, allowing local dev, staging, or production API targets.
