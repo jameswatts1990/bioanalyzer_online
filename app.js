@@ -296,24 +296,26 @@ analyzeBtn.addEventListener('click', async () => {
 });
 
 loadDemoBtn.addEventListener('click', () => {
-  document.getElementById('datasetName').value = 'Femto Trace Demo Plate';
+  document.getElementById('datasetName').value = 'Femto Trace Demo Plate (3v3)';
   document.getElementById('conditionA').value = 'Control';
   document.getElementById('conditionB').value = 'Treated';
   document.getElementById('adjP').value = '0.05';
-  document.getElementById('logfc').value = '1.2';
+  document.getElementById('logfc').value = '1.0';
   inputDataEl.value = [
-    'gene,control_rep_1,control_rep_2,treated_rep_1,treated_rep_2',
-    'Marker_A,120,111,288,244',
-    'Marker_B,100,99,52,55',
-    'Marker_C,43,47,41,45',
-    'Marker_D,14,13,23,21'
+    'gene,control_rep_1,control_rep_2,control_rep_3,treated_rep_1,treated_rep_2,treated_rep_3',
+    'Marker_A,120,111,118,288,244,271',
+    'Marker_B,100,99,103,52,55,58',
+    'Marker_C,43,47,45,41,45,44',
+    'Marker_D,14,13,15,23,21,22',
+    'Marker_E,61,58,60,126,130,121',
+    'Marker_F,210,198,205,148,152,145'
   ].join('\n');
 
   const { headers } = parseDataInput(inputDataEl.value);
   fillColumnSelectors(headers);
   rOutput.textContent = 'No analysis run yet.';
   plotWrap.innerHTML = '<p class="empty">Run analysis to render volcano plot.</p>';
-  setStatus(analysisStatus, 'Femto Trace demo loaded. Verify groups and run local analysis.', 'ok');
+  setStatus(analysisStatus, 'Femto Trace demo loaded with balanced replicates. Review labels/thresholds, then run local analysis.', 'ok');
 });
 
 plotWrap.innerHTML = '<p class="empty">Run analysis to render volcano plot.</p>';

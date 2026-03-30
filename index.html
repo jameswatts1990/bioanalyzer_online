@@ -31,16 +31,15 @@
             </li>
             <li>
               <strong>Add Femto Trace data:</strong> paste CSV/TSV where each
-              row is a marker/gene and columns are sample intensity values.
+              row is a marker/gene and each sample column contains intensity values.
             </li>
             <li>
-              <strong>Choose sample columns:</strong> pick which samples belong
-              to Group A and Group B using the selectors below.
+              <strong>Detect and verify sample columns:</strong> click
+              <em>Detect Sample Columns</em>, then confirm Group A and Group B assignments.
             </li>
             <li>
-              <strong>Label sample groups:</strong> set Group A / Group B to
-              your comparison (for example <code>Control</code> vs
-              <code>Treated</code>).
+              <strong>Label the comparison:</strong> set Group A / Group B labels
+              (for example <code>Control</code> vs <code>Treated</code>) and choose your thresholds.
             </li>
             <li>
               <strong>Run analysis:</strong> click <em>Run Femto Trace Analysis</em>
@@ -52,7 +51,7 @@
             </li>
           </ol>
           <p class="hint">
-            Tip: Use <em>Load Demo Payload</em> for a ready-to-run local example.
+            Tip: Use <em>Load Demo Payload</em> to load a realistic 3-vs-3 starter dataset, detect columns automatically, then run analysis in one click.
           </p>
         </section>
 
@@ -87,7 +86,7 @@
           <textarea
             id="inputData"
             rows="9"
-            placeholder="gene,control_rep1,control_rep2,treated_rep1,treated_rep2\nMarker_1,12,15,27,23\nMarker_2,40,44,32,30"
+            placeholder="gene,control_rep_1,control_rep_2,control_rep_3,treated_rep_1,treated_rep_2,treated_rep_3\nMarker_1,102,98,105,187,192,181\nMarker_2,44,47,43,31,28,30"
           ></textarea>
           <button class="ghost compact" id="detectColumnsBtn" type="button">Detect Sample Columns</button>
 
